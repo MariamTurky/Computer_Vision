@@ -403,56 +403,5 @@ elif chosen_id == "tab5":
         st.image(image_with_countour, width=190)
 
 #############################################################################################################
-elif chosen_id == "tab6":
-   
-    l_image,  r_image = st.columns(2)
-    if my_upload  is not None:
-        path_1='images/'+ my_upload.name
-        with l_image:
-                    st.markdown('<p style="text-align: center;">Input1 Image</p>',unsafe_allow_html=True)
-                    image_1 = cv2.imread(path_1)
-                    st.image(image_1)   
-
-        with r_image:
-                st.markdown('<p style="text-align: center;"> Image with harris</p>',unsafe_allow_html=True)
-                harriResponse  = harris.harrisCorner(image_1,0.04)
-                cornerImage = harris.corner2Image(image_1, harriResponse , 0.05)
-                st.image(cornerImage  )
-               
-#############################################################################################################
-
-elif chosen_id == "tab7":
-    second = st.sidebar.file_uploader("Upload second image", type=["png", "jpg", "jpeg"])
-    l_image, m_image, r_image = st.columns(3)
-    radio_button = sidebar.radio(
-                "", ['SSD','NCC'], horizontal=False)
-    if radio_button == 'SSD':
-         method = "ssd"
-    else:
-         
-         method ="ncc"
-    if my_upload  is not None:
-        path_1='images/'+ my_upload.name
-        with l_image:
-                    st.markdown('<p style="text-align: center;">Input1 Image</p>',unsafe_allow_html=True)
-                    image_1 = cv2.imread(path_1)
-                    st.image(image_1,width=190)       
-    if second is not None:
-        path_2='images/'+second.name
-
-        with m_image:
-                    st.markdown('<p style="text-align: center;">Input2 Image</p>',unsafe_allow_html=True)
-                    image_2 = cv2.imread(path_2)
-                    st.image(image_2,width=190)    
-
-      
-        with r_image:
-                st.markdown('<p style="text-align: center;">Output Image</p>',unsafe_allow_html=True)
-                
-                matched_image , match_time = matching.get_matching(path_1, path_2,method)
-                st.image(matched_image,width=190)
-                print(match_time)
-
-    
 else:
     sidebar.empty()
