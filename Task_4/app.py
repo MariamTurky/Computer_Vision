@@ -562,59 +562,5 @@ elif chosen_id == "tab9":
                 st.image(segmented_image_rg,width=450)
    
 #############################################################################################################
-elif chosen_id == "tab10":
-    choice =''
-    if st.sidebar.button('Face Recgonition'):
-             choice = 'recognition'
-
-    l_image,  r_image = st.columns(2)
-    if my_upload  is not None:
-        path = 'Face-Recognition-master/test/'
-        path_1= path + my_upload.name
-        # print(path_1)
-
-        with l_image:
-                    st.markdown('<p style="text-align: center;">Input1 Image</p>',unsafe_allow_html=True)
-                    image_1 = cv2.imread(path_1)
-                    faces  = FACE_DETECTION.detect_faces(image_1)
-                    image =FACE_DETECTION.draw_faces(image_1, faces )
-                    image = FACE_DETECTION.convertToRGB(image)
-                    st.image(image,width=200) 
-                    output_image,probs,y_score ,probs1= FR.get_eigen_faces(path_1)
-
-                    y_true = np.array([i for i in range(41) for _ in range(8,10)])
-                    print('Mean Absolute Error:', mean_absolute_error(y_true,y_score))
-                    print('Mean Squared Error:', mean_squared_error(y_true, y_score))
-                    print('Root Mean Squared Error:', np.sqrt(mean_squared_error(y_true, y_score)))
-                    fpr, tpr, _ = roc_curve(y_true, probs[:, 1] , pos_label=1)
-                    roc_auc = auc(fpr, tpr)
-
-                    fpr1, tpr1, _ = roc_curve(y_true, probs1[:, 1] , pos_label=1)
-                    roc_auc1 = auc(fpr1, tpr1)
-
-                    figure,ax = plt.subplots()  
-                    plt.plot(fpr, tpr, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc)
-                    plt.plot(fpr1, tpr1, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc1)
-                    plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
-                    plt.xlabel('False Positive Rate')
-                    plt.ylabel('True Positive Rate')
-                    plt.title('Receiver Operating Characteristic (ROC) Curve')
-                    plt.legend(loc="lower right")
-
-                    st.pyplot(figure)
-
-
-
-                
-                    print(classification_report(y_true,y_score))
-
-                    
-        with r_image:              
-                
-                if (choice == 'recognition'):
-                    st.markdown('<p style="text-align: center;"> Image with Face Detection </p>',unsafe_allow_html=True)
-                    the_output_image = output_image
-
-                    st.image(the_output_image,width=200)
 else:
     sidebar.empty()
